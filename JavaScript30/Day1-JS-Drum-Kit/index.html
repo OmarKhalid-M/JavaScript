@@ -70,13 +70,27 @@
           `audio[data-key = "${e.keyCode}"]`
         );
 
-        const key = document.querySelector(`.key[data-key = "${e.keyCode}"]`);
-
         if (!audio) return; //stoping function if key not found
 
         audio.currentTime = 0; //rewind to the start
+
         audio.play();
+
+        const key = document.querySelector(`.key[data-key = "${e.keyCode}"]`);
+
+        key.classList.add("playing");
       });
+
+      function removeTransition(e) {
+        if (e.propertyName !== "transform") return;
+        this.classList.remove("playing");
+      }
+
+      const keys = document.querySelectorAll(".key");
+
+      keys.forEach((key) =>
+        key.addEventListener("transitionend", removeTransition)
+      );
     </script>
   </body>
 </html>
